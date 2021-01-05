@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { ProjectCardComponent } from './project-card.component';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -10,7 +10,7 @@ describe('ProjectCardComponent', () => {
   let component: ProjectCardComponent;
   let fixture: ComponentFixture<ProjectCardComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
       declarations: [ProjectCardComponent, TruncateStringPipe]

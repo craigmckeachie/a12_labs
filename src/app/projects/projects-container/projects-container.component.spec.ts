@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { ProjectsContainerComponent } from './projects-container.component';
 import { Component, Input } from '@angular/core';
@@ -23,7 +23,7 @@ describe('ProjectsContainerComponent', () => {
   let component: ProjectsContainerComponent;
   let fixture: ComponentFixture<ProjectsContainerComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ProjectsContainerComponent, ProjectListStubComponent],
       providers: [{ provide: ProjectService, useClass: ProjectServiceStub }]
@@ -40,7 +40,7 @@ describe('ProjectsContainerComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should have projects', async(() => {
+  it('should have projects', waitForAsync(() => {
     fixture.whenStable().then(() => {
       expect(component.projects.length).toEqual(7);
     });
