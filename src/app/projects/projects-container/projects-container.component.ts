@@ -8,14 +8,14 @@ import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 @Component({
   selector: 'app-projects-container',
   templateUrl: './projects-container.component.html',
-  styleUrls: ['./projects-container.component.css']
+  styleUrls: ['./projects-container.component.css'],
 })
 export class ProjectsContainerComponent implements OnInit, OnDestroy {
   projects: Project[] = [];
-  errorMessage: string;
-  loading: boolean;
+  errorMessage: string = '';
+  loading: boolean = false;
   private searchTerms = new Subject<string>();
-  private subscription: Subscription;
+  private subscription!: Subscription;
 
   constructor(private projectService: ProjectService) {}
 
@@ -38,19 +38,17 @@ export class ProjectsContainerComponent implements OnInit, OnDestroy {
         distinctUntilChanged(),
 
         // switch to new search observable each time the term changes
-        switchMap(
-          (term: string): Observable<Project[]> => {
-            this.loading = true;
-            return this.projectService.listByName(term);
-          }
-        )
+        switchMap((term: string): Observable<Project[]> => {
+          this.loading = true;
+          return this.projectService.listByName(term);
+        })
       )
       .subscribe(
-        data => {
+        (data) => {
           this.loading = false;
           this.projects = data;
         },
-        error => {
+        (error) => {
           this.loading = false;
           this.errorMessage = error;
         }
@@ -64,13 +62,13 @@ export class ProjectsContainerComponent implements OnInit, OnDestroy {
   onSaveListItem(event: any) {
     const project: Project = event.item;
     this.projectService.put(project).subscribe(
-      updatedProject => {
+      (updatedProject) => {
         const index = this.projects.findIndex(
-          element => element.id === project.id
+          (element) => element.id === project.id
         );
         this.projects[index] = project;
       },
-      error => (this.errorMessage = error)
+      (error) => (this.errorMessage = error)
     );
   }
 }

@@ -11,10 +11,10 @@ import { Project } from '../shared/project.model';
   styleUrls: ['./project-detail-container.component.css'],
 })
 export class ProjectDetailContainerComponent implements OnInit, OnDestroy {
-  project: Project;
-  errorMessage: string;
-  loading: boolean;
-  projectSubscription: Subscription;
+  project: Project | undefined;
+  errorMessage: string = '';
+  loading: boolean = false;
+  projectSubscription!: Subscription;
 
   constructor(
     private projectService: ProjectService,

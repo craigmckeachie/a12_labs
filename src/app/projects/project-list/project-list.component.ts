@@ -12,7 +12,7 @@ export class ProjectListComponent implements OnInit {
   @Output()
   saveListItem = new EventEmitter<any>();
 
-  editingProject: Project | null;
+  editingProject: Project | null = null;
 
   constructor() {}
 

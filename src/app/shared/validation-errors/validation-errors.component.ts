@@ -22,7 +22,7 @@ const errorMessages: any = {
 })
 export class ValidationErrorsComponent implements OnInit {
   @Input()
-  control: AbstractControl | null;
+  control: AbstractControl | null | undefined;
 
   constructor() {}
 
