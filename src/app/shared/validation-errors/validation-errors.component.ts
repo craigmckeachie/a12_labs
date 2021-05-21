@@ -2,56 +2,52 @@ import { Component, OnInit, Input } from '@angular/core';
 import {
   AbstractControl,
   AbstractControlDirective,
-  FormControl
+  FormControl,
 } from '@angular/forms';
 
 const errorMessages: any = {
   name: {
     required: 'Name is required.',
-    minlength: 'Name must be at least 3 characters long.'
+    minlength: 'Name must be at least 3 characters long.',
   },
   description: {
-    required: 'Description is required.'
-  }
+    required: 'Description is required.',
+  },
 };
 
 @Component({
   selector: 'app-validation-errors',
   templateUrl: './validation-errors.component.html',
-  styleUrls: ['./validation-errors.component.css']
+  styleUrls: ['./validation-errors.component.css'],
 })
 export class ValidationErrorsComponent implements OnInit {
   @Input()
-  control: AbstractControl = new FormControl();
+  control: AbstractControl | null;
 
   constructor() {}
 
   ngOnInit() {}
 
   shouldShowErrors(): boolean {
-    return (
-      this.control &&
-      this.control.invalid &&
-      this.control.dirty &&
-      this.control.touched
-    );
+    if (!this.control) return false;
+    return this.control.invalid && this.control.dirty && this.control.touched;
   }
 
   getControlName(c: AbstractControl): string | null | undefined {
-    const formGroup: any = c.parent.controls;
+    const formGroup: any = c?.parent?.controls;
     return Object.keys(formGroup).find((name: string) => {
       return c === formGroup[name];
     });
   }
 
   getErrorMessages(): string[] {
-    if (!this.control.errors) {
+    if (!this.control?.errors) {
       return [];
     }
     const controlName = this.getControlName(this.control) || '';
 
-    return Object.keys(this.control.errors).map<any>(key => {
-      if (!this.control.errors) {
+    return Object.keys(this.control?.errors).map<any>((key) => {
+      if (!this.control?.errors) {
         return;
       }
       return errorMessages[controlName][key];

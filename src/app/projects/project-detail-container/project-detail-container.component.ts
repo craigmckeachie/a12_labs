@@ -8,7 +8,7 @@ import { Project } from '../shared/project.model';
 @Component({
   selector: 'app-project-detail-container',
   templateUrl: './project-detail-container.component.html',
-  styleUrls: ['./project-detail-container.component.css']
+  styleUrls: ['./project-detail-container.component.css'],
 })
 export class ProjectDetailContainerComponent implements OnInit, OnDestroy {
   project: Project;
@@ -22,15 +22,16 @@ export class ProjectDetailContainerComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    const id: number = parseInt(this.route.snapshot.paramMap.get('id'), 10);
+    const id: number | null = parseInt(
+      this.route.snapshot.paramMap.get('id') ?? '-1',
+      10
+    );
     this.loading = true;
-    this.projectSubscription = this.projectService
-      .find(id)
-      .subscribe(
-        data => (this.project = data),
-        error => (this.errorMessage = error),
-        () => (this.loading = false)
-      );
+    this.projectSubscription = this.projectService.find(id).subscribe(
+      (data) => (this.project = data),
+      (error) => (this.errorMessage = error),
+      () => (this.loading = false)
+    );
   }
 
   ngOnDestroy(): void {
